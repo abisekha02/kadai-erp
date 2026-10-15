@@ -29,26 +29,26 @@ export async function logout() {
 export async function saveProduct(formData: FormData) {
   await requireAdmin();
   const id = int(formData.get("id"));
-  const values = [
+  const values: (string | number | null)[] = [
     str(formData.get("name")),
     str(formData.get("category")),
     str(formData.get("description")),
     Math.max(0, int(formData.get("price"))),
     Math.max(0, int(formData.get("stock"))),
     Math.max(0, int(formData.get("reorder_level"), 10)),
-    str(formData.get("emoji")) || "📦",
+    str(formData.get("image_url")) || null,
   ];
   if (!values[0] || !values[1]) redirect("/admin/products");
 
   if (id) {
     await query(
       `update products set name=$1, category=$2, description=$3, price=$4, stock=$5,
-       reorder_level=$6, emoji=$7 where id=$8`,
+       reorder_level=$6, image_url=$7 where id=$8`,
       [...values, id],
     );
   } else {
     await query(
-      `insert into products(name,category,description,price,stock,reorder_level,emoji)
+      `insert into products(name,category,description,price,stock,reorder_level,image_url)
        values($1,$2,$3,$4,$5,$6,$7)`,
       values,
     );

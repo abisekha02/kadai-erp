@@ -14,8 +14,9 @@ export default async function OrderPage({ params }: { params: { id: string } }) 
   const items = await query<OrderItem>("select * from order_items where order_id=$1 order by id", [id]);
 
   return (
-    <div className="mx-auto max-w-xl">
-      <h1 className="font-display text-3xl font-bold">Thank you, {order.customer_name.split(" ")[0]}.</h1>
+    <div className="mx-auto max-w-xl px-4 py-12">
+      <span className="grid h-14 w-14 place-items-center rounded-full bg-betel text-2xl text-white">✓</span>
+      <h1 className="mt-5 font-display text-3xl font-bold">Thank you, {order.customer_name.split(" ")[0]}.</h1>
       <p className="mt-2 text-mute">
         Order {invoiceNo(order.id)} is placed. We will pack it and ship to the address below. Pay when it arrives.
       </p>

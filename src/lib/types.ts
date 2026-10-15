@@ -7,6 +7,7 @@ export type Product = {
   stock: number;
   reorder_level: number;
   emoji: string;
+  image_url: string | null;
   active: boolean;
 };
 

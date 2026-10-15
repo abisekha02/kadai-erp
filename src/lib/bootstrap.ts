@@ -16,6 +16,8 @@ create table if not exists products (
   created_at timestamptz not null default now()
 );
 
+alter table products add column if not exists image_url text;
+
 create table if not exists suppliers (
   id serial primary key,
   name text not null,

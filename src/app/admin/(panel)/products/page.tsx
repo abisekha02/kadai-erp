@@ -3,6 +3,7 @@ import { query } from "@/lib/db";
 import type { Product } from "@/lib/types";
 import { inr } from "@/lib/format";
 import { toggleProduct } from "../../actions";
+import ProductImage from "@/components/ProductImage";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,10 @@ export default async function Inventory() {
               return (
                 <tr key={p.id} className={p.active ? "" : "opacity-50"}>
                   <td className="td font-medium">
-                    {p.emoji} {p.name}
+                    <div className="flex items-center gap-3">
+                      <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="h-11 w-11 shrink-0 rounded-lg" artClassName="h-full w-full p-0.5" />
+                      {p.name}
+                    </div>
                   </td>
                   <td className="td">{p.category}</td>
                   <td className="td text-right tabular-nums">{inr(p.price)}</td>

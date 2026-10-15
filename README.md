@@ -9,13 +9,14 @@ Customers browse and order; staff manage inventory, fulfil orders, print invoice
 ## Features
 
 **Storefront**
-- Product catalogue with category filters and search
+- Designed landing page: hero, trust strip, category tiles, story and reviews sections
+- Product catalogue with category filters and search, custom-illustrated product artwork (SVG, no image hosting needed)
 - Product detail pages, persistent cart (localStorage)
 - Checkout (cash on delivery) with server-side validation and order confirmation
 
 **Admin ERP** (`/admin`)
 - Dashboard: revenue, order counts, stock value, 7-day sales chart, low-stock alerts
-- Inventory: add / edit products, reorder levels, show/hide from store
+- Inventory: add / edit products, reorder levels, optional photo URL per product, show/hide from store
 - Orders: filter by status, move through placed → packed → shipped → delivered, cancel
 - Printable invoices
 - Purchasing: suppliers, purchase orders, "mark received" adds stock automatically
@@ -63,4 +64,3 @@ Tables and demo data are created automatically on the first page load, so there 
 - Product image uploads, customer accounts, reviews
 - Multiple admin users with roles, audit log of stock movements
 - Unit and end-to-end tests (Vitest + Playwright)
-"# kadai-erp" 

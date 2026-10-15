@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useCart } from "@/components/CartProvider";
 import { placeOrder } from "../../actions";
 import { inr } from "@/lib/format";
+import ProductImage from "@/components/ProductImage";
 
 export default function CartPage() {
   const { items, ready, total, setQty, remove, clear } = useCart();
@@ -13,11 +14,11 @@ export default function CartPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  if (!ready) return <p className="text-mute">Loading your cart…</p>;
+  if (!ready) return <p className="mx-auto max-w-6xl px-4 py-10 text-mute">Loading your cart…</p>;
 
   if (items.length === 0) {
     return (
-      <div className="panel p-10 text-center">
+      <div className="mx-auto my-10 max-w-xl rounded-2xl border border-line bg-white p-10 text-center">
         <h1 className="font-display text-2xl font-bold">Your cart is empty</h1>
         <p className="mt-2 text-mute">Add a few things from the shop and they will show up here.</p>
         <Link href="/" className="btn btn-primary mt-5">
@@ -49,15 +50,13 @@ export default function CartPage() {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+    <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[1fr_380px]">
       <section>
         <h1 className="font-display text-3xl font-bold">Your cart</h1>
         <ul className="panel mt-4 divide-y divide-line">
           {items.map((i) => (
             <li key={i.id} className="flex items-center gap-4 p-4">
-              <span className="text-4xl" aria-hidden>
-                {i.emoji}
-              </span>
+              <ProductImage name={i.name} category={i.category} imageUrl={i.image} className="h-16 w-16 shrink-0 rounded-xl" artClassName="h-full w-full p-1" />
               <div className="flex-1">
                 <p className="font-medium">{i.name}</p>
                 <p className="text-sm text-mute tabular-nums">{inr(i.price)} each</p>

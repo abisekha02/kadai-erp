@@ -2,6 +2,7 @@ import Link from "next/link";
 import { query } from "@/lib/db";
 import type { Order, Product } from "@/lib/types";
 import { fmtDate, inr, invoiceNo } from "@/lib/format";
+import ProductImage from "@/components/ProductImage";
 
 export const dynamic = "force-dynamic";
 
@@ -30,10 +31,10 @@ export default async function Dashboard() {
   const max = Math.max(1, ...week.map((w) => w.revenue));
 
   const stats = [
-    { label: "Revenue", value: inr(sales.revenue) },
-    { label: "Orders", value: String(sales.orders) },
-    { label: "Awaiting packing", value: String(sales.pending) },
-    { label: "Stock value (retail)", value: inr(inv.value) },
+    { label: "Revenue", value: inr(sales.revenue), bar: "bg-betel" },
+    { label: "Orders", value: String(sales.orders), bar: "bg-ink" },
+    { label: "Awaiting packing", value: String(sales.pending), bar: "bg-turmeric" },
+    { label: "Stock value (retail)", value: inr(inv.value), bar: "bg-brick" },
   ];
 
   return (
@@ -42,9 +43,10 @@ export default async function Dashboard() {
 
       <dl className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="panel p-4">
+          <div key={s.label} className="panel relative overflow-hidden p-5">
+            <span className={`absolute inset-x-0 top-0 h-1 ${s.bar}`} />
             <dt className="text-sm text-mute">{s.label}</dt>
-            <dd className="mt-1 text-2xl font-bold tabular-nums">{s.value}</dd>
+            <dd className="mt-1 font-display text-3xl font-bold tabular-nums">{s.value}</dd>
           </div>
         ))}
       </dl>
@@ -79,8 +81,9 @@ export default async function Dashboard() {
             <ul className="mt-3 divide-y divide-line">
               {lowStock.map((p) => (
                 <li key={p.id} className="flex justify-between py-2 text-sm">
-                  <span>
-                    {p.emoji} {p.name}
+                  <span className="flex items-center gap-3">
+                    <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="h-9 w-9 shrink-0 rounded-lg" artClassName="h-full w-full p-0.5" />
+                    {p.name}
                   </span>
                   <span className="font-semibold text-brick tabular-nums">
                     {p.stock} / {p.reorder_level}

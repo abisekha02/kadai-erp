@@ -40,3 +40,19 @@ body {
     @apply rounded-lg border border-line bg-white;
   }
 }
+
+.tile-dots {
+  background-image: radial-gradient(rgba(20, 33, 61, 0.09) 1.2px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+.hero-glow {
+  background:
+    radial-gradient(60% 80% at 85% 10%, rgba(242, 183, 5, 0.28), transparent 60%),
+    radial-gradient(50% 60% at 0% 100%, rgba(47, 107, 79, 0.45), transparent 60%),
+    #14213d;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .float-slow { animation: floaty 7s ease-in-out infinite; }
+  .float-slow-2 { animation: floaty 9s ease-in-out infinite reverse; }
+  @keyframes floaty { 0%,100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-8px) rotate(var(--r, 0deg)); } }
+}

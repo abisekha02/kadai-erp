@@ -9,19 +9,18 @@ export default function ProductForm({ product }: { product?: Product }) {
         <label className="label" htmlFor="name">Name</label>
         <input id="name" name="name" className="input" defaultValue={product?.name} required />
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="label" htmlFor="category">Category</label>
-          <select id="category" name="category" className="input" defaultValue={product?.category ?? CATEGORIES[0]}>
-            {CATEGORIES.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="label" htmlFor="emoji">Emoji</label>
-          <input id="emoji" name="emoji" className="input" defaultValue={product?.emoji ?? "📦"} maxLength={4} />
-        </div>
+      <div>
+        <label className="label" htmlFor="category">Category</label>
+        <select id="category" name="category" className="input" defaultValue={product?.category ?? CATEGORIES[0]}>
+          {CATEGORIES.map((c) => (
+            <option key={c}>{c}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label className="label" htmlFor="image_url">Photo URL (optional)</label>
+        <input id="image_url" name="image_url" type="url" className="input" placeholder="https://… leave empty to use the illustration" defaultValue={product?.image_url ?? ""} />
+        <p className="mt-1 text-xs text-mute">Paste a link to your own product photo. If empty, the store shows its built-in illustration.</p>
       </div>
       <div>
         <label className="label" htmlFor="description">Description</label>
