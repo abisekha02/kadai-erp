@@ -5,14 +5,14 @@ import { CATEGORIES } from "@/lib/types";
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <div className="bg-turmeric text-center text-xs font-semibold text-ink">
+      <div className="bg-brick text-center text-xs font-semibold text-cream">
         <p className="px-4 py-2">Free delivery on orders above ₹999 · Pay on delivery · Packed fresh in Madurai</p>
       </div>
 
       <header className="sticky top-0 z-30 border-b border-line bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3">
           <Link href="/" className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-ink font-display text-xl font-bold text-turmeric">K</span>
+            <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-turmeric bg-ink font-display text-xl font-bold text-turmeric">K</span>
             <span className="font-display text-2xl font-bold tracking-tight">
               Kadai <span className="text-betel">&amp;</span> Co.
             </span>
@@ -43,6 +43,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <main>{children}</main>
 
       <footer className="mt-20 bg-ink text-white/80">
+        <div className="temple-border" aria-hidden />
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-4">
           <div className="md:col-span-2">
             <p className="font-display text-2xl font-bold text-white">
@@ -70,6 +71,11 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
               <li>Delivery in 2–4 days</li>
               <li>Cash on delivery</li>
               <li>Easy returns</li>
+              <li>
+                <Link href="/credits" className="hover:text-white hover:underline">
+                  Photo credits
+                </Link>
+              </li>
               <li>
                 <Link href="/admin" className="hover:text-white hover:underline">
                   Staff sign in

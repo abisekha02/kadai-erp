@@ -4,8 +4,10 @@
   "private": true,
   "description": "Storefront + admin ERP (inventory, orders, purchasing, invoices) built with Next.js and Postgres",
   "scripts": {
+    "predev": "node scripts/photos.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "photos": "node scripts/photos.mjs",
+    "build": "node scripts/photos.mjs && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },

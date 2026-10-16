@@ -5,16 +5,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#14213D",
-        turmeric: "#F2B705",
-        chalk: "#F6F6F2",
-        betel: "#2F6B4F",
-        brick: "#B3392E",
-        line: "#D9D9D0",
-        mute: "#5B6275",
+        ink: "#2B1B12",
+        wood: "#3A2216",
+        turmeric: "#E8A200",
+        chalk: "#FBF6EA",
+        cream: "#FFF8E7",
+        betel: "#2E6B3C",
+        brick: "#B3261E",
+        line: "#E4D8BF",
+        mute: "#6B5A4A",
       },
       fontFamily: {
         display: ['"Iowan Old Style"', '"Palatino Linotype"', "Palatino", "Georgia", "serif"],
+        tamil: ['"Noto Sans Tamil"', '"Nirmala UI"', "Latha", '"Tamil Sangam MN"', "sans-serif"],
       },
     },
   },

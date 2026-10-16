@@ -33,6 +33,10 @@ Customers browse and order; staff manage inventory, fulfil orders, print invoice
 
 Next.js 14 (App Router) · TypeScript · Tailwind CSS · PostgreSQL · `pg` · `jose`
 
+## Photography
+
+The site is built for real food photography. Each photographic section, the hero banner and every product card has a named slot. Add a file such as `public/photos/idli-sambar.webp` and it appears automatically, resized to AVIF/WebP and lazy-loaded. Slots without a photo show an illustration instead of a broken image. See `public/photos/README.md` for the file names, sizes, licensing rules and how to credit photographers (credits appear on `/credits`).
+
 ## Run locally
 
 ```bash

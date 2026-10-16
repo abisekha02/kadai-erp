@@ -4,6 +4,11 @@ import { CATEGORIES, type Product } from "@/lib/types";
 import { artFor } from "@/components/ProductArt";
 import ProductImage from "@/components/ProductImage";
 import ProductCard from "@/components/ProductCard";
+import Photo from "@/components/Photo";
+import BananaLeafArt from "@/components/BananaLeafArt";
+import DishCard from "@/components/DishCard";
+import Kolam from "@/components/Kolam";
+import { DISHES, HERO } from "@/lib/photos";
 import { inr } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -65,49 +70,40 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
     <>
       {!browsing && (
         <>
-          <section className="mx-auto max-w-6xl px-4 pt-6">
-            <div className="hero-glow relative overflow-hidden rounded-3xl px-6 py-12 text-white md:px-14 md:py-16">
-              <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
-                <div>
-                  <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide text-turmeric">
-                    <span className="h-1.5 w-1.5 rounded-full bg-turmeric" /> FRESH-PACKED IN MADURAI
-                  </p>
-                  <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] sm:text-6xl">
-                    The flavours of your <span className="text-turmeric">kitchen</span>, delivered.
-                  </h1>
-                  <p className="mt-5 max-w-md text-lg leading-relaxed text-white/75">
-                    Kumbakonam coffee, Guntur chilli, Idukki cardamom, and the brass to serve it in. Small batches, honest prices.
-                  </p>
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <a href="#shop" className="btn btn-accent px-6 py-3 text-base">
-                      Shop the pantry
-                    </a>
-                    <Link href="/?cat=Coffee%20%26%20Tea#shop" className="btn border border-white/30 px-6 py-3 text-base text-white hover:bg-white/10">
-                      Meet the coffee
-                    </Link>
-                  </div>
-                  <dl className="mt-10 flex gap-8 text-sm">
-                    <div><dt className="text-white/60">Pantry staples</dt><dd className="text-2xl font-bold">{all.length}+</dd></div>
-                    <div><dt className="text-white/60">Dispatch</dt><dd className="text-2xl font-bold">2 days</dd></div>
-                    <div><dt className="text-white/60">Payment</dt><dd className="text-2xl font-bold">On delivery</dd></div>
-                  </dl>
+          <section className="hero-glow relative overflow-hidden text-white">
+            <div className="temple-border" aria-hidden />
+            <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-16">
+              <div>
+                <p className="font-tamil text-lg font-semibold text-turmeric" lang="ta">
+                  தென்னிந்திய சுவை
+                </p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.22em] text-white/60">South Indian pantry · Madurai</p>
+                <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] sm:text-6xl">
+                  The flavours of the <span className="text-turmeric">South</span>, delivered.
+                </h1>
+                <p className="mt-5 max-w-md text-lg leading-relaxed text-white/80">
+                  Filter coffee, Guntur chilli, Idukki cardamom and the cast iron to cook it on. Small batches from Tamil Nadu and Kerala, packed fresh in Madurai.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a href="#shop" className="btn btn-accent px-6 py-3 text-base">Shop the pantry</a>
+                  <a href="#kitchens" className="btn border border-white/30 px-6 py-3 text-base text-white hover:bg-white/10">Explore the flavours</a>
                 </div>
+                <dl className="mt-10 flex gap-8 text-sm">
+                  <div><dt className="text-white/60">Pantry staples</dt><dd className="text-2xl font-bold">{all.length}+</dd></div>
+                  <div><dt className="text-white/60">Dispatch</dt><dd className="text-2xl font-bold">2 days</dd></div>
+                  <div><dt className="text-white/60">Payment</dt><dd className="text-2xl font-bold">On delivery</dd></div>
+                </dl>
+              </div>
 
-                <div className="relative mx-auto grid w-full max-w-md grid-cols-2 gap-4">
-                  {featured.map((p, i) => (
-                    <Link
-                      key={p.id}
-                      href={`/product/${p.id}`}
-                      className={`${i === 0 ? "float-slow" : "float-slow-2"} block overflow-hidden rounded-2xl bg-white text-ink shadow-xl ${i === 2 ? "col-span-2 mx-auto w-3/5" : ""}`}
-                      style={{ ["--r" as string]: i === 0 ? "-3deg" : i === 1 ? "3deg" : "-1deg" }}
-                    >
-                      <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="aspect-square" />
-                      <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm">
-                        <span className="truncate font-medium">{p.name.split(" ").slice(0, 2).join(" ")}</span>
-                        <span className="font-bold tabular-nums">{inr(p.price)}</span>
-                      </div>
-                    </Link>
-                  ))}
+              <div className="mx-auto w-full max-w-md">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-3xl border-4 border-turmeric bg-wood shadow-2xl">
+                  <Photo
+                    slot={HERO.slot}
+                    alt={HERO.alt}
+                    priority
+                    sizes="(min-width: 1024px) 440px, 90vw"
+                    fallback={<BananaLeafArt className="h-full w-full" />}
+                  />
                 </div>
               </div>
             </div>
@@ -125,6 +121,21 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
                     <p className="text-sm text-mute">{t.s}</p>
                   </div>
                 </li>
+              ))}
+            </ul>
+          </section>
+
+          <section id="kitchens" className="mx-auto mt-16 max-w-6xl scroll-mt-32 px-4">
+            <Kolam />
+            <div className="mt-4 text-center">
+              <h2 className="font-display text-3xl font-bold sm:text-4xl">From the kitchens of the South</h2>
+              <p className="mx-auto mt-2 max-w-xl text-mute">
+                The dishes we grew up on, and the pantry staples that make them. Pick one and shop the ingredients.
+              </p>
+            </div>
+            <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {DISHES.map((d) => (
+                <DishCard key={d.slot} d={d} />
               ))}
             </ul>
           </section>
@@ -185,7 +196,7 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
       {!browsing && (
         <>
           <section className="mx-auto mt-20 max-w-6xl px-4">
-            <div className="grid items-center gap-8 overflow-hidden rounded-3xl bg-turmeric/25 md:grid-cols-2">
+            <div className="grid items-center gap-8 overflow-hidden rounded-3xl bg-turmeric/20 md:grid-cols-2">
               <div className="p-8 md:p-12">
                 <p className="text-sm font-semibold uppercase tracking-wide text-betel">Our story</p>
                 <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl">
@@ -203,7 +214,7 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
                   ))}
                 </ul>
               </div>
-              <div className="tile-dots flex items-center justify-center bg-turmeric/40 p-8">
+              <div className="tile-dots flex items-center justify-center bg-turmeric/30 p-8">
                 <ProductImage name="Brass Tumbler" category="Kitchenware" className="aspect-square w-3/4 max-w-xs rounded-full" artClassName="h-full w-full p-6" />
               </div>
             </div>
