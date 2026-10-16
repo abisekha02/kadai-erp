@@ -9,8 +9,8 @@ Customers browse and order; staff manage inventory, fulfil orders, print invoice
 ## Features
 
 **Storefront**
-- Designed landing page: hero, trust strip, category tiles, story and reviews sections
-- Product catalogue with category filters and search, custom-illustrated product artwork (SVG, no image hosting needed)
+- Grocery-style storefront: header with category search and live cart total, hero with promos, category tiles, best sellers, promo banners, features strip and footer
+- Product catalogue with category filters, search and sorting; best sellers calculated from real orders
 - Product detail pages, persistent cart (localStorage)
 - Checkout (cash on delivery) with server-side validation and order confirmation
 
@@ -35,7 +35,7 @@ Next.js 14 (App Router) · TypeScript · Tailwind CSS · PostgreSQL · `pg` · `
 
 ## Photography
 
-The site is built for real food photography. Each photographic section, the hero banner and every product card has a named slot. Add a file such as `public/photos/idli-sambar.webp` and it appears automatically, resized to AVIF/WebP and lazy-loaded. Slots without a photo show an illustration instead of a broken image. See `public/photos/README.md` for the file names, sizes, licensing rules and how to credit photographers (credits appear on `/credits`).
+The site is built for real food photography. Each photographic section, the hero banner and every product card has a named slot. Add a file such as `public/photos/idli-sambar.webp` and it appears automatically, resized to AVIF/WebP and lazy-loaded. Slots without a photo show a clean label or tinted tile instead of a broken image. See `public/photos/README.md` for the file names, sizes, licensing rules and how to credit photographers (credits appear on `/credits`).
 
 ## Run locally
 

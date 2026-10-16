@@ -56,7 +56,7 @@ export default function CartPage() {
         <ul className="panel mt-4 divide-y divide-line">
           {items.map((i) => (
             <li key={i.id} className="flex items-center gap-4 p-4">
-              <ProductImage name={i.name} category={i.category} imageUrl={i.image} className="h-16 w-16 shrink-0 rounded-xl" artClassName="h-full w-full p-1" />
+              <ProductImage name={i.name} category={i.category} imageUrl={i.image} compact sizes="64px" className="h-16 w-16 shrink-0 rounded-lg" />
               <div className="flex-1">
                 <p className="font-medium">{i.name}</p>
                 <p className="text-sm text-mute tabular-nums">{inr(i.price)} each</p>

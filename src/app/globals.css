@@ -7,7 +7,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #2b1b12;
+  outline: 2px solid #173d2b;
   outline-offset: 2px;
 }
 
@@ -16,13 +16,13 @@ body {
     @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply bg-ink text-white hover:bg-[#432a1c];
+    @apply bg-ink text-white hover:bg-forest;
   }
   .btn-accent {
-    @apply bg-turmeric text-ink hover:bg-[#f5b81f];
+    @apply bg-terracotta text-white hover:bg-clay;
   }
   .btn-ghost {
-    @apply border border-line bg-white text-ink hover:bg-[#f3ead3];
+    @apply border border-line bg-white text-ink hover:bg-[#f1e8d0];
   }
   .input {
     @apply w-full rounded-md border border-line bg-white px-3 py-2 text-sm placeholder:text-mute/70;
@@ -42,14 +42,13 @@ body {
 }
 
 .tile-dots {
-  background-image: radial-gradient(rgba(58, 34, 22, 0.08) 1.2px, transparent 1.2px);
+  background-image: radial-gradient(rgba(23, 61, 43, 0.07) 1.2px, transparent 1.2px);
   background-size: 14px 14px;
 }
-.hero-glow {
+.hero-green {
   background:
-    radial-gradient(60% 80% at 85% 10%, rgba(232, 162, 0, 0.30), transparent 60%),
-    radial-gradient(50% 60% at 0% 100%, rgba(46, 107, 60, 0.50), transparent 60%),
-    #2b1b12;
+    radial-gradient(70% 90% at 100% 0%, rgba(166, 75, 40, 0.28), transparent 60%),
+    linear-gradient(135deg, #173d2b 0%, #1f5138 100%);
 }
 @media (prefers-reduced-motion: no-preference) {
   .float-slow { animation: floaty 7s ease-in-out infinite; }
@@ -57,15 +56,14 @@ body {
   @keyframes floaty { 0%,100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-8px) rotate(var(--r, 0deg)); } }
 }
 
-/* Kanchipuram-saree style temple border: red triangles on turmeric */
+/* Subtle temple-border motif: cream triangles on terracotta */
 .temple-border {
-  height: 12px;
-  background-color: #e8a200;
+  height: 10px;
+  background-color: #a64b28;
   background-image:
-    linear-gradient(135deg, #b3261e 25%, transparent 25%),
-    linear-gradient(225deg, #b3261e 25%, transparent 25%);
-  background-size: 12px 12px;
-  background-position: 0 0, 0 0;
+    linear-gradient(135deg, #f9f3e4 25%, transparent 25%),
+    linear-gradient(225deg, #f9f3e4 25%, transparent 25%);
+  background-size: 10px 10px;
 }
 .temple-border-thin { height: 6px; background-size: 6px 6px; }
 .font-tamil { font-family: "Noto Sans Tamil", "Nirmala UI", Latha, "Tamil Sangam MN", sans-serif; }

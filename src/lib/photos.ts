@@ -15,7 +15,7 @@ export type DishSlot = {
   credit?: Credit; // fill this in when you add the photo (shown on /credits)
 };
 
-/** The photographic sections on the home page. Drop `<slot>.webp` into public/photos to light each one up. */
+/** Promo banners and dish photos on the home page. Drop `<slot>.webp` into public/photos to light each one up. */
 export const DISHES: DishSlot[] = [
   {
     slot: "dosa-chutney",
@@ -26,7 +26,7 @@ export const DISHES: DishSlot[] = [
     alt: "A crisp golden dosa served with bowls of coconut chutney and tomato chutney",
     cta: "Tawa, batter rice & more",
     href: "/?q=dosa#shop",
-    tint: "#E8A200",
+    tint: "#8A3F22",
   },
   {
     slot: "idli-sambar",
@@ -37,7 +37,7 @@ export const DISHES: DishSlot[] = [
     alt: "Soft white idlis served with sambar and chutney on a steel plate",
     cta: "Shop idli rice",
     href: "/?q=idli#shop",
-    tint: "#2E6B3C",
+    tint: "#2F6B4A",
   },
   {
     slot: "parotta-salna",
@@ -48,7 +48,7 @@ export const DISHES: DishSlot[] = [
     alt: "Layered Madurai-style parotta served with salna gravy",
     cta: "Shop spices",
     href: "/?cat=Spices#shop",
-    tint: "#B3261E",
+    tint: "#A64B28",
   },
   {
     slot: "chettinad-chicken",
@@ -59,7 +59,7 @@ export const DISHES: DishSlot[] = [
     alt: "A bowl of dark, spicy Chettinad chicken curry with curry leaves",
     cta: "Shop pepper & chilli",
     href: "/?cat=Spices#shop",
-    tint: "#8A2A14",
+    tint: "#6B3A24",
   },
   {
     slot: "biryani",
@@ -70,7 +70,7 @@ export const DISHES: DishSlot[] = [
     alt: "A plate of South Indian biryani made with short-grain seeraga samba rice",
     cta: "Shop rice & grains",
     href: "/?cat=Rice%20%26%20Grains#shop",
-    tint: "#C27A12",
+    tint: "#3F5E34",
   },
   {
     slot: "filter-coffee",
@@ -81,7 +81,7 @@ export const DISHES: DishSlot[] = [
     alt: "Frothy South Indian filter coffee in a steel tumbler and dabara set",
     cta: "Shop coffee & tea",
     href: "/?cat=Coffee%20%26%20Tea#shop",
-    tint: "#5A3420",
+    tint: "#5A3A28",
   },
   {
     slot: "murukku",
@@ -92,7 +92,7 @@ export const DISHES: DishSlot[] = [
     alt: "A pile of crunchy golden murukku spirals",
     cta: "Shop snacks",
     href: "/?cat=Snacks#shop",
-    tint: "#D9A21B",
+    tint: "#A3472A",
   },
   {
     slot: "sweets",
@@ -103,10 +103,11 @@ export const DISHES: DishSlot[] = [
     alt: "A tray of traditional South Indian sweets including Mysore pak and laddu",
     cta: "Shop snacks",
     href: "/?cat=Snacks#shop",
-    tint: "#A8461F",
+    tint: "#1F5138",
   },
 ];
 
+/** Hero banner photo (landscape, about 2:1). */
 export const HERO = {
   slot: "hero-banana-leaf",
   alt: "A traditional South Indian meal served on a banana leaf with rice, sambar, rasam, poriyal, appalam and pickle",
@@ -131,3 +132,9 @@ export const presentPhotos = () => {
 export const PRODUCT_CREDITS: Record<string, Credit | undefined> = {};
 /** Credit for the hero photo. */
 export const HERO_CREDIT: Credit | undefined = undefined;
+
+export const dish = (slot: string): DishSlot => {
+  const d = DISHES.find((x) => x.slot === slot);
+  if (!d) throw new Error(`Unknown dish slot: ${slot}`);
+  return d;
+};

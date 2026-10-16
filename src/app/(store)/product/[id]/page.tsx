@@ -21,7 +21,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
   const low = p.stock > 0 && p.stock <= p.reorder_level;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
       <nav className="text-sm text-mute" aria-label="Breadcrumb">
         <Link href="/" className="hover:underline">Home</Link> /{" "}
         <Link href={`/?cat=${encodeURIComponent(p.category)}#shop`} className="hover:underline">{p.category}</Link> /{" "}
@@ -29,15 +29,15 @@ export default async function ProductPage({ params }: { params: { id: string } }
       </nav>
 
       <div className="mt-6 grid gap-10 md:grid-cols-2">
-        <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="aspect-square rounded-3xl" artClassName="h-full w-full p-10" />
+        <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} priority sizes="(min-width: 768px) 560px, 92vw" className="aspect-square rounded-2xl border border-line" />
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-betel">{p.category}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">{p.category}</p>
           <h1 className="mt-2 font-display text-4xl font-bold leading-tight">{p.name}</h1>
           <p className="mt-4 text-3xl font-bold tabular-nums">{inr(p.price)}</p>
           <p className="mt-5 max-w-md leading-relaxed text-ink/75">{p.description}</p>
 
-          <p className={`mt-5 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium ${p.stock <= 0 ? "bg-brick/10 text-brick" : low ? "bg-turmeric/30 text-ink" : "bg-betel/10 text-betel"}`}>
+          <p className={`mt-5 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium ${p.stock <= 0 ? "bg-brick/10 text-brick" : low ? "bg-terracotta/15 text-clay" : "bg-betel/10 text-betel"}`}>
             <span className="h-2 w-2 rounded-full bg-current" />
             {p.stock <= 0 ? "Out of stock" : low ? `Only ${p.stock} left` : "In stock"}
           </p>

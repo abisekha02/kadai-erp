@@ -12,9 +12,9 @@ export const fmtDate = (d: Date | string) =>
 export const invoiceNo = (id: number) => `INV-${String(id).padStart(5, "0")}`;
 
 export const tileColor: Record<string, string> = {
-  "Coffee & Tea": "#E7D5BF",
-  Spices: "#F3C9B8",
-  "Rice & Grains": "#E9E3B5",
-  Snacks: "#F6DE9A",
-  Kitchenware: "#BFD4E6",
+  "Coffee & Tea": "#EFE3CF",
+  Spices: "#F2DACB",
+  "Rice & Grains": "#EAE6CC",
+  Snacks: "#F2E6C6",
+  Kitchenware: "#DCE5D8",
 };

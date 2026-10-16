@@ -39,7 +39,7 @@ export default async function Inventory() {
                 <tr key={p.id} className={p.active ? "" : "opacity-50"}>
                   <td className="td font-medium">
                     <div className="flex items-center gap-3">
-                      <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="h-11 w-11 shrink-0 rounded-lg" artClassName="h-full w-full p-0.5" />
+                      <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} compact sizes="48px" className="h-11 w-11 shrink-0 rounded-lg" />
                       {p.name}
                     </div>
                   </td>

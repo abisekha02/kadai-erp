@@ -1,191 +1,168 @@
 import Link from "next/link";
 import { query } from "@/lib/db";
 import { CATEGORIES, type Product } from "@/lib/types";
-import { artFor } from "@/components/ProductArt";
-import ProductImage from "@/components/ProductImage";
 import ProductCard from "@/components/ProductCard";
+import CategoryTile from "@/components/CategoryTile";
+import PromoCard from "@/components/PromoCard";
+import SectionHeading from "@/components/SectionHeading";
 import Photo from "@/components/Photo";
-import BananaLeafArt from "@/components/BananaLeafArt";
-import DishCard from "@/components/DishCard";
-import Kolam from "@/components/Kolam";
-import { DISHES, HERO } from "@/lib/photos";
-import { inr } from "@/lib/format";
+import { HERO, dish } from "@/lib/photos";
 
 export const dynamic = "force-dynamic";
 
-const Icon = ({ d }: { d: string }) => (
-  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d={d} />
-  </svg>
-);
+type Row = Product & { sold: number };
+const SORTS: Record<string, string> = { popular: "Popular", "price-asc": "Price: low to high", "price-desc": "Price: high to low" };
 
-const trust = [
-  { t: "Fresh-packed", s: "Ground and sealed in small batches", d: "M12 21c-4-3-7-6-7-10a7 7 0 0 1 14 0c0 4-3 7-7 10zM12 8v6M9 11h6" },
-  { t: "Free delivery", s: "On orders above ₹999", d: "M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19a1.5 1.5 0 1 0 0-.01M17 19a1.5 1.5 0 1 0 0-.01" },
-  { t: "Pay on delivery", s: "No card needed to order", d: "M4 6h16v12H4zM4 10h16M8 15h3" },
-  { t: "Easy returns", s: "Not happy? We make it right", d: "M4 12a8 8 0 0 1 14-5l2 2M20 4v5h-5M20 12a8 8 0 0 1-14 5l-2-2M4 20v-5h5" },
-];
-
-const reviews = [
-  { n: "Priya R.", c: "Madurai", q: "The filter coffee smells exactly like my grandmother's kitchen. Already ordered a second pack." },
-  { n: "Karthik S.", c: "Chennai", q: "Cardamom was fresh and fragrant, and the packaging kept everything sealed. Delivery in two days." },
-  { n: "Divya N.", c: "Bengaluru", q: "The dosa tawa is heavy and seasons beautifully. Crisp dosas on the first try." },
-];
-
-export default async function Home({ searchParams }: { searchParams: { q?: string; cat?: string } }) {
+export default async function Home({ searchParams }: { searchParams: { q?: string; cat?: string; sort?: string } }) {
   const q = searchParams.q?.trim() ?? "";
   const cat = CATEGORIES.includes(searchParams.cat ?? "") ? searchParams.cat! : "";
+  const sort = SORTS[searchParams.sort ?? ""] ? searchParams.sort! : "popular";
   const browsing = Boolean(q || cat);
 
-  const all = await query<Product>("select * from products where active order by category, name");
-  const products = all.filter(
-    (p) =>
-      (!cat || p.category === cat) &&
-      (!q || `${p.name} ${p.description}`.toLowerCase().includes(q.toLowerCase())),
+  const all = await query<Row>(
+    `select p.*, coalesce(s.sold,0)::int as sold
+     from products p
+     left join (
+       select oi.product_id, sum(oi.quantity) as sold
+       from order_items oi join orders o on o.id = oi.order_id
+       where o.status <> 'cancelled' group by oi.product_id
+     ) s on s.product_id = p.id
+     where p.active order by p.category, p.name`,
   );
 
-  const featured = (["coffee", "chilli", "tumbler"] as const)
-    .map((k) => all.find((p) => artFor(p.name, p.category) === k))
-    .filter(Boolean) as Product[];
+  let products = all.filter(
+    (p) => (!cat || p.category === cat) && (!q || `${p.name} ${p.description}`.toLowerCase().includes(q.toLowerCase())),
+  );
+  if (sort === "price-asc") products = [...products].sort((a, b) => a.price - b.price);
+  else if (sort === "price-desc") products = [...products].sort((a, b) => b.price - a.price);
+  else products = [...products].sort((a, b) => b.sold - a.sold || a.name.localeCompare(b.name));
 
-  const chip = (label: string, value: string) => {
-    const params = new URLSearchParams();
-    if (value) params.set("cat", value);
-    if (q) params.set("q", q);
-    const active = cat === value;
-    return (
-      <Link
-        key={label}
-        href={`/?${params.toString()}#shop`}
-        className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
-          active ? "border-ink bg-ink text-white" : "border-line bg-white hover:border-ink"
-        }`}
-      >
-        {label}
-      </Link>
-    );
+  const bestSellers = [...all].sort((a, b) => b.sold - a.sold || a.name.localeCompare(b.name)).slice(0, 4);
+
+  const href = (over: { cat?: string; sort?: string }) => {
+    const sp = new URLSearchParams();
+    const c = over.cat ?? cat;
+    if (c) sp.set("cat", c);
+    if (q) sp.set("q", q);
+    const so = over.sort ?? sort;
+    if (so !== "popular") sp.set("sort", so);
+    const s = sp.toString();
+    return s ? `/?${s}#shop` : "/#shop";
   };
 
+  const chip = (label: string, active: boolean, to: string) => (
+    <Link
+      key={label}
+      href={to}
+      aria-current={active ? "true" : undefined}
+      className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+        active ? "border-ink bg-ink text-white" : "border-line bg-white hover:border-ink"
+      }`}
+    >
+      {label}
+    </Link>
+  );
+
   return (
-    <>
+    <div className="mx-auto max-w-6xl px-4">
       {!browsing && (
         <>
-          <section className="hero-glow relative overflow-hidden text-white">
-            <div className="temple-border" aria-hidden />
-            <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 lg:grid-cols-[1.05fr_1fr] lg:py-16">
-              <div>
-                <p className="font-tamil text-lg font-semibold text-turmeric" lang="ta">
-                  தென்னிந்திய சுவை
-                </p>
-                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.22em] text-white/60">South Indian pantry · Madurai</p>
-                <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] sm:text-6xl">
-                  The flavours of the <span className="text-turmeric">South</span>, delivered.
+          {/* Hero + side promos */}
+          <section aria-label="Featured" className="grid gap-4 pt-6 lg:grid-cols-[2fr_1fr]">
+            <div className="hero-green relative isolate flex min-h-[420px] overflow-hidden rounded-2xl text-white">
+              <div className="absolute inset-y-0 right-0 w-full md:w-3/5" aria-hidden={false}>
+                <Photo
+                  slot={HERO.slot}
+                  alt={HERO.alt}
+                  priority
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                  fallback={
+                    <div className="tile-lotus flex h-full w-full items-end justify-end p-8" aria-hidden>
+                      <span className="font-tamil text-6xl font-bold text-white/15 lg:text-7xl" lang="ta">சுவை</span>
+                    </div>
+                  }
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/10 md:via-ink/60" aria-hidden />
+              <div className="relative z-10 flex max-w-lg flex-col justify-center p-7 sm:p-10">
+                <p className="font-tamil text-base font-semibold text-sand" lang="ta">தென்னிந்திய சுவை</p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-cream/70">South Indian pantry · Madurai</p>
+                <h1 className="mt-4 font-display text-4xl font-bold leading-[1.08] sm:text-5xl">
+                  The flavours of the South, delivered.
                 </h1>
-                <p className="mt-5 max-w-md text-lg leading-relaxed text-white/80">
-                  Filter coffee, Guntur chilli, Idukki cardamom and the cast iron to cook it on. Small batches from Tamil Nadu and Kerala, packed fresh in Madurai.
+                <p className="mt-4 max-w-md leading-relaxed text-cream/85">
+                  Filter coffee, Guntur chilli, Idukki cardamom and the cast iron to cook it on. Small batches, packed fresh and priced fairly.
                 </p>
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-7 flex flex-wrap gap-3">
                   <a href="#shop" className="btn btn-accent px-6 py-3 text-base">Shop the pantry</a>
-                  <a href="#kitchens" className="btn border border-white/30 px-6 py-3 text-base text-white hover:bg-white/10">Explore the flavours</a>
-                </div>
-                <dl className="mt-10 flex gap-8 text-sm">
-                  <div><dt className="text-white/60">Pantry staples</dt><dd className="text-2xl font-bold">{all.length}+</dd></div>
-                  <div><dt className="text-white/60">Dispatch</dt><dd className="text-2xl font-bold">2 days</dd></div>
-                  <div><dt className="text-white/60">Payment</dt><dd className="text-2xl font-bold">On delivery</dd></div>
-                </dl>
-              </div>
-
-              <div className="mx-auto w-full max-w-md">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-3xl border-4 border-turmeric bg-wood shadow-2xl">
-                  <Photo
-                    slot={HERO.slot}
-                    alt={HERO.alt}
-                    priority
-                    sizes="(min-width: 1024px) 440px, 90vw"
-                    fallback={<BananaLeafArt className="h-full w-full" />}
-                  />
+                  <a href="#bestsellers" className="btn border border-white/40 px-6 py-3 text-base text-white hover:bg-white/10">Best sellers</a>
                 </div>
               </div>
             </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <PromoCard d={dish("filter-coffee")} eyebrow="Kumbakonam style" title="Filter coffee, made right" className="aspect-[16/9] lg:aspect-auto lg:min-h-[200px]" />
+              <PromoCard d={dish("sweets")} eyebrow="Festival favourites" title="Sweets & snacks for every occasion" className="aspect-[16/9] lg:aspect-auto lg:min-h-[200px]" />
+            </div>
           </section>
 
-          <section className="mx-auto mt-8 max-w-6xl px-4">
-            <ul className="grid grid-cols-2 gap-4 rounded-2xl border border-line bg-white p-5 lg:grid-cols-4">
-              {trust.map((t) => (
-                <li key={t.t} className="flex items-start gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-turmeric/25 text-ink">
-                    <Icon d={t.d} />
-                  </span>
-                  <div>
-                    <p className="font-semibold">{t.t}</p>
-                    <p className="text-sm text-mute">{t.s}</p>
-                  </div>
-                </li>
+          {/* Featured categories */}
+          <section aria-label="Shop by category" className="mt-14">
+            <SectionHeading title="Shop by category" sub="Everything for a South Indian kitchen." />
+            <ul className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6 sm:grid-cols-5">
+              {CATEGORIES.map((c) => (
+                <CategoryTile key={c} category={c} count={all.filter((p) => p.category === c).length} rep={all.find((p) => p.category === c)} />
               ))}
             </ul>
           </section>
 
-          <section id="kitchens" className="mx-auto mt-16 max-w-6xl scroll-mt-32 px-4">
-            <Kolam />
-            <div className="mt-4 text-center">
-              <h2 className="font-display text-3xl font-bold sm:text-4xl">From the kitchens of the South</h2>
-              <p className="mx-auto mt-2 max-w-xl text-mute">
-                The dishes we grew up on, and the pantry staples that make them. Pick one and shop the ingredients.
-              </p>
-            </div>
-            <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {DISHES.map((d) => (
-                <DishCard key={d.slot} d={d} />
+          {/* Best sellers */}
+          <section id="bestsellers" aria-label="Best sellers" className="mt-16 scroll-mt-32">
+            <SectionHeading title="Best sellers" sub="What other kitchens keep reordering." href="/#shop" />
+            <ul className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+              {bestSellers.map((p) => (
+                <ProductCard key={p.id} p={p} badge={p.sold > 0 ? "Best seller" : undefined} />
               ))}
             </ul>
           </section>
 
-          <section className="mx-auto mt-14 max-w-6xl px-4">
-            <h2 className="font-display text-3xl font-bold">Shop by category</h2>
-            <ul className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-5">
-              {CATEGORIES.map((c) => {
-                const rep = all.find((p) => p.category === c);
-                const count = all.filter((p) => p.category === c).length;
-                return (
-                  <li key={c}>
-                    <Link href={`/?cat=${encodeURIComponent(c)}#shop`} className="group block overflow-hidden rounded-2xl border border-line bg-white transition hover:-translate-y-1 hover:shadow-lg">
-                      {rep && (
-                        <ProductImage name={rep.name} category={c} imageUrl={rep.image_url} className="aspect-[4/3]" artClassName="h-full w-full p-3 transition duration-300 group-hover:scale-110" />
-                      )}
-                      <div className="p-3">
-                        <p className="font-semibold leading-tight">{c}</p>
-                        <p className="text-xs text-mute">{count} products</p>
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
+          {/* Promo trio */}
+          <section aria-label="Cook the South" className="mt-16">
+            <ul className="grid gap-4 md:grid-cols-3">
+              <li><PromoCard d={dish("dosa-chutney")} eyebrow="Crisp & golden" title="Dosa night, sorted" cta="Shop dosa" sizes="(min-width: 768px) 380px, 90vw" /></li>
+              <li><PromoCard d={dish("idli-sambar")} eyebrow="Soft & steamed" title="Idli rice for fluffy idlis" cta="Shop idli rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
+              <li><PromoCard d={dish("parotta-salna")} eyebrow="Layered & flaky" title="Spices for parotta & salna" cta="Shop spices" sizes="(min-width: 768px) 380px, 90vw" /></li>
             </ul>
           </section>
         </>
       )}
 
-      <section id="shop" className="mx-auto mt-14 max-w-6xl scroll-mt-32 px-4">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 className="font-display text-3xl font-bold">
-              {q ? `Results for “${q}”` : cat || "Our pantry"}
-            </h2>
-            <p className="mt-1 text-mute">{products.length} {products.length === 1 ? "product" : "products"}</p>
+      {/* Shop all */}
+      <section id="shop" aria-label="All products" className={`scroll-mt-32 ${browsing ? "pt-8" : "mt-16"}`}>
+        <nav aria-label="Breadcrumb" className={`mb-3 text-sm text-mute ${browsing ? "" : "hidden"}`}>
+          <Link href="/" className="hover:underline">Home</Link> / <span className="text-ink">{cat || (q ? "Search" : "All products")}</span>
+        </nav>
+        <SectionHeading
+          title={q ? `Results for “${q}”` : cat || "All products"}
+          sub={`${products.length} ${products.length === 1 ? "product" : "products"}`}
+        />
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+            {chip("All", !cat, href({ cat: "" }))}
+            {CATEGORIES.map((c) => chip(c, cat === c, href({ cat: c })))}
           </div>
-          <div className="flex flex-wrap gap-2">
-            {chip("All", "")}
-            {CATEGORIES.map((c) => chip(c, c))}
+          <div className="flex flex-wrap items-center gap-2 text-sm" role="group" aria-label="Sort products">
+            <span className="text-mute">Sort:</span>
+            {Object.entries(SORTS).map(([k, label]) => chip(label, sort === k, href({ sort: k })))}
           </div>
         </div>
 
         {products.length === 0 ? (
           <p className="mt-8 rounded-2xl border border-line bg-white p-10 text-center text-mute">
-            Nothing matches your search. Try another word or{" "}
-            <Link href="/" className="underline">clear the filters</Link>.
+            Nothing matches your search. Try another word or <Link href="/" className="underline">clear the filters</Link>.
           </p>
         ) : (
-          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
             {products.map((p) => (
               <ProductCard key={p.id} p={p} />
             ))}
@@ -194,47 +171,15 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
       </section>
 
       {!browsing && (
-        <>
-          <section className="mx-auto mt-20 max-w-6xl px-4">
-            <div className="grid items-center gap-8 overflow-hidden rounded-3xl bg-turmeric/20 md:grid-cols-2">
-              <div className="p-8 md:p-12">
-                <p className="text-sm font-semibold uppercase tracking-wide text-betel">Our story</p>
-                <h2 className="mt-3 font-display text-3xl font-bold leading-tight sm:text-4xl">
-                  From Madurai kitchens to yours.
-                </h2>
-                <p className="mt-4 leading-relaxed text-ink/80">
-                  We started Kadai &amp; Co. because good pantry staples are hard to find outside the town they come from. We work directly with small roasters, spice growers and metalworkers, check every batch, and pack it ourselves.
-                </p>
-                <ul className="mt-6 grid grid-cols-3 gap-4 text-center">
-                  {[["3", "Partner suppliers"], ["100%", "Packed by hand"], ["2 days", "Typical dispatch"]].map(([n, l]) => (
-                    <li key={l} className="rounded-xl bg-white/70 p-3">
-                      <p className="font-display text-2xl font-bold">{n}</p>
-                      <p className="text-xs text-mute">{l}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="tile-dots flex items-center justify-center bg-turmeric/30 p-8">
-                <ProductImage name="Brass Tumbler" category="Kitchenware" className="aspect-square w-3/4 max-w-xs rounded-full" artClassName="h-full w-full p-6" />
-              </div>
-            </div>
-          </section>
-
-          <section className="mx-auto mt-20 max-w-6xl px-4">
-            <h2 className="font-display text-3xl font-bold">What customers say</h2>
-            <p className="mt-1 text-sm text-mute">Sample reviews for this demo store.</p>
-            <ul className="mt-6 grid gap-5 md:grid-cols-3">
-              {reviews.map((r) => (
-                <li key={r.n} className="rounded-2xl border border-line bg-white p-6">
-                  <p className="text-turmeric" aria-label="5 out of 5 stars">★★★★★</p>
-                  <p className="mt-3 leading-relaxed">“{r.q}”</p>
-                  <p className="mt-4 text-sm font-semibold">{r.n}<span className="font-normal text-mute"> · {r.c}</span></p>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </>
+        <section aria-label="More from the South" className="mt-16">
+          <SectionHeading title="From the kitchens of the South" sub="The dishes we grew up on, and the staples that make them." />
+          <ul className="mt-6 grid gap-4 md:grid-cols-3">
+            <li><PromoCard d={dish("biryani")} eyebrow="Seeraga samba" title="Biryani rice, the proper way" cta="Shop rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
+            <li><PromoCard d={dish("chettinad-chicken")} eyebrow="Karaikudi heat" title="Pepper & chilli for Chettinad" cta="Shop spices" sizes="(min-width: 768px) 380px, 90vw" /></li>
+            <li><PromoCard d={dish("murukku")} eyebrow="Crunchy rice-flour spirals" title="Murukku, fried fresh" cta="Shop snacks" sizes="(min-width: 768px) 380px, 90vw" /></li>
+          </ul>
+        </section>
       )}
-    </>
+    </div>
   );
 }

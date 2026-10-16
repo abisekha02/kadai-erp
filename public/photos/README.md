@@ -4,18 +4,18 @@ Drop optimised photos here. The filename decides where each one appears. No code
 
 | File name (.webp preferred, .jpg ok) | Where it shows | Suggested size |
 | --- | --- | --- |
-| `hero-banana-leaf` | Home page banner: a traditional banana-leaf meal (portrait, 4:5) | 1200 x 1500 |
-| `dosa-chutney` | Crispy dosa with chutneys | 1200 x 900 |
-| `idli-sambar` | Idli and sambar | 1200 x 900 |
-| `parotta-salna` | Madurai parotta and salna | 1200 x 900 |
-| `chettinad-chicken` | Chettinad chicken | 1200 x 900 |
-| `biryani` | South Indian (seeraga samba) biryani | 1200 x 900 |
-| `filter-coffee` | Filter coffee in a tumbler and dabara | 1200 x 900 |
-| `murukku` | Murukku | 1200 x 900 |
-| `sweets` | Traditional sweets (Mysore pak, adhirasam, laddu) | 1200 x 900 |
-| `product-coffee`, `product-tea`, `product-chilli`, `product-pepper`, `product-cardamom`, `product-rice`, `product-cashew`, `product-murukku`, `product-tumbler`, `product-tawa`, `product-grinder` | Product cards: the actual item being sold (square, 1:1) | 1000 x 1000 |
+| `hero-banana-leaf` | Home page hero banner: a traditional banana-leaf meal (landscape, about 2:1; keep the subject on the right half because the text sits on the left) | 1600 x 800 |
+| `dosa-chutney` | Promo banner: crispy dosa with chutneys | 1200 x 900 |
+| `idli-sambar` | Promo banner: idli and sambar | 1200 x 900 |
+| `parotta-salna` | Promo banner: Madurai parotta and salna | 1200 x 900 |
+| `chettinad-chicken` | Promo banner: Chettinad chicken | 1200 x 900 |
+| `biryani` | Promo banner: South Indian (seeraga samba) biryani | 1200 x 900 |
+| `filter-coffee` | Hero side promo: filter coffee in a tumbler and dabara | 1200 x 900 |
+| `murukku` | Promo banner: murukku | 1200 x 900 |
+| `sweets` | Hero side promo: traditional sweets (Mysore pak, adhirasam, laddu) | 1200 x 900 |
+| `product-coffee`, `product-tea`, `product-chilli`, `product-pepper`, `product-cardamom`, `product-rice`, `product-cashew`, `product-murukku`, `product-tumbler`, `product-tawa`, `product-grinder` | Product cards, category circles and the cart: the actual item being sold, photographed on a plain background (square, 1:1, keep the item centred) | 1000 x 1000 |
 
-Missing files are fine: that slot shows the built-in illustration or Tamil lettering tile instead of a broken image.
+Missing files are fine: a product shows a clean pantry-label tile, a category shows Tamil lettering on a tint, and a promo shows a tinted panel. Nothing ever shows a broken image.
 
 ## Rules for choosing photos
 

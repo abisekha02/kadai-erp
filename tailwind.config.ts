@@ -5,15 +5,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#2B1B12",
-        wood: "#3A2216",
-        turmeric: "#E8A200",
-        chalk: "#FBF6EA",
-        cream: "#FFF8E7",
-        betel: "#2E6B3C",
-        brick: "#B3261E",
-        line: "#E4D8BF",
-        mute: "#6B5A4A",
+        ink: "#173D2B",
+        forest: "#1F5138",
+        terracotta: "#A64B28",
+        clay: "#8E3F20",
+        sand: "#EBC9A8",
+        chalk: "#F9F3E4",
+        cream: "#FFFBF0",
+        betel: "#2F6B4A",
+        brick: "#A8322A",
+        line: "#E6DCC3",
+        mute: "#5F6B61",
       },
       fontFamily: {
         display: ['"Iowan Old Style"', '"Palatino Linotype"', "Palatino", "Georgia", "serif"],

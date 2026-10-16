@@ -33,7 +33,7 @@ export default async function Dashboard() {
   const stats = [
     { label: "Revenue", value: inr(sales.revenue), bar: "bg-betel" },
     { label: "Orders", value: String(sales.orders), bar: "bg-ink" },
-    { label: "Awaiting packing", value: String(sales.pending), bar: "bg-turmeric" },
+    { label: "Awaiting packing", value: String(sales.pending), bar: "bg-terracotta" },
     { label: "Stock value (retail)", value: inr(inv.value), bar: "bg-brick" },
   ];
 
@@ -82,7 +82,7 @@ export default async function Dashboard() {
               {lowStock.map((p) => (
                 <li key={p.id} className="flex justify-between py-2 text-sm">
                   <span className="flex items-center gap-3">
-                    <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="h-9 w-9 shrink-0 rounded-lg" artClassName="h-full w-full p-0.5" />
+                    <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} compact sizes="40px" className="h-9 w-9 shrink-0 rounded-lg" />
                     {p.name}
                   </span>
                   <span className="font-semibold text-brick tabular-nums">

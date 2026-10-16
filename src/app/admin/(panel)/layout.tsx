@@ -16,7 +16,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
       <aside className="border-b border-line bg-ink text-white md:min-h-screen md:w-56 md:border-b-0 print:hidden">
         <div className="flex items-center justify-between px-4 py-4 md:block">
           <p className="flex items-center gap-2.5 font-display text-xl font-bold">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-turmeric text-base text-ink">K</span> Kadai ERP
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-sand text-base text-ink">K</span> Kadai ERP
           </p>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-2 pb-3 md:flex-col md:pb-0">
