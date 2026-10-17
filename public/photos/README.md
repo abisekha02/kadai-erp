@@ -4,7 +4,7 @@ Drop optimised photos here. The filename decides where each one appears. No code
 
 | File name (.webp preferred, .jpg ok) | Where it shows | Suggested size |
 | --- | --- | --- |
-| `hero-banana-leaf` | Home page hero banner: a traditional banana-leaf meal (landscape, about 2:1; keep the subject on the right half because the text sits on the left) | 1600 x 800 |
+| `hero-banana-leaf` | Home page hero banner: a traditional banana-leaf meal. It is shown in a near-square area on desktop and a taller area on mobile, so use a square or portrait crop with the food centred or on the right (the text sits on the left) | 1200 x 1200 or 1200 x 1500 |
 | `dosa-chutney` | Promo banner: crispy dosa with chutneys | 1200 x 900 |
 | `idli-sambar` | Promo banner: idli and sambar | 1200 x 900 |
 | `parotta-salna` | Promo banner: Madurai parotta and salna | 1200 x 900 |
