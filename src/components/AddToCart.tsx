@@ -5,7 +5,7 @@ import { useCart } from "./CartProvider";
 
 type P = { id: number; name: string; price: number; category: string; image_url: string | null; stock: number };
 
-export default function AddToCart({ p, withQty = false }: { p: P; withQty?: boolean }) {
+export default function AddToCart({ p, withQty = false, variant = "solid" }: { p: P; withQty?: boolean; variant?: "solid" | "soft" }) {
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -37,7 +37,7 @@ export default function AddToCart({ p, withQty = false }: { p: P; withQty?: bool
           </button>
         </div>
       )}
-      <button className={`btn flex-1 ${added ? "bg-betel text-white" : "btn-primary"}`} onClick={onAdd}>
+      <button className={`btn flex-1 ${added ? "border border-betel bg-betel text-white" : variant === "soft" ? "btn-soft" : "btn-primary"}`} onClick={onAdd}>
         {added ? "✓ Added" : "Add to cart"}
       </button>
     </div>

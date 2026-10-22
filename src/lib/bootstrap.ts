@@ -57,6 +57,12 @@ create table if not exists purchase_orders (
   received_at timestamptz
 );
 
+create table if not exists subscribers (
+  id serial primary key,
+  email text not null unique,
+  created_at timestamptz not null default now()
+);
+
 create index if not exists idx_orders_created on orders(created_at);
 create index if not exists idx_items_order on order_items(order_id);
 `;

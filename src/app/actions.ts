@@ -1,6 +1,6 @@
 "use server";
 
-import { getClient } from "@/lib/db";
+import { getClient, query } from "@/lib/db";
 
 type Input = {
   name: string;
@@ -79,4 +79,46 @@ export async function placeOrder(input: Input): Promise<Result> {
   } finally {
     client.release();
   }
+}
+
+export type SubscribeResult = { ok: true } | { ok: false; error: string };
+
+/** Newsletter sign-up. Stored in the `subscribers` table and visible to staff in the admin. */
+export async function subscribe(email: string, honeypot = ""): Promise<SubscribeResult> {
+  if (honeypot.trim()) return { ok: true }; // bots fill the hidden field; pretend success
+  const e = (email ?? "").trim().toLowerCase();
+  if (!/^\S+@\S+\.\S+$/.test(e) || e.length > 200) return { ok: false, error: "Enter a valid email address." };
+  try {
+    await query("insert into subscribers(email) values($1) on conflict (email) do nothing", [e]);
+    return { ok: true };
+  } catch (err) {
+    console.error("subscribe failed", err);
+    return { ok: false, error: "Could not subscribe right now. Please try again." };
+  }
+}
+
+export type TrackResult =
+  | { ok: true; order: { id: number; status: string; total: number; created: string; name: string }; items: { name: string; qty: number; price: number }[] }
+  | { ok: false; error: string };
+
+/** Order tracking: the order number and the email used at checkout must both match. */
+export async function trackOrder(orderNo: string, email: string): Promise<TrackResult> {
+  const id = Number(String(orderNo).replace(/\D/g, ""));
+  const e = (email ?? "").trim().toLowerCase();
+  if (!Number.isInteger(id) || id < 1 || !e) return { ok: false, error: "Enter your order number and the email you used at checkout." };
+  const rows = await query<{ id: number; status: string; total: number; created_at: Date; customer_name: string }>(
+    "select id, status, total, created_at, customer_name from orders where id=$1 and lower(email)=$2",
+    [id, e],
+  );
+  if (!rows[0]) return { ok: false, error: "We could not find an order with that number and email." };
+  const items = await query<{ name: string; quantity: number; unit_price: number }>(
+    "select name, quantity, unit_price from order_items where order_id=$1 order by id",
+    [id],
+  );
+  const o = rows[0];
+  return {
+    ok: true,
+    order: { id: o.id, status: o.status, total: o.total, created: new Date(o.created_at).toISOString(), name: o.customer_name },
+    items: items.map((i) => ({ name: i.name, qty: i.quantity, price: i.unit_price })),
+  };
 }

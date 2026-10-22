@@ -7,6 +7,7 @@ const nav = [
   { href: "/admin/products", label: "Inventory" },
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/purchases", label: "Purchasing" },
+  { href: "/admin/subscribers", label: "Subscribers" },
 ];
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {

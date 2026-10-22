@@ -9,7 +9,8 @@ Customers browse and order; staff manage inventory, fulfil orders, print invoice
 ## Features
 
 **Storefront**
-- Grocery-style storefront: header with category search and live cart total, hero with promos, category tiles, best sellers, promo banners, features strip and footer
+- Grocery storefront laid out like a modern grocery theme: top bar, header with search, wishlist and live cart total, All categories menu, hero slider with side banners, best sellers, category blocks, promo banners, category tiles, newsletter, features strip and a multi-column footer
+- Wishlist (saved in the browser), order tracking (order number + email), and a newsletter whose sign-ups appear in the admin under Subscribers
 - Product catalogue with category filters, search and sorting; best sellers calculated from real orders
 - Product detail pages, persistent cart (localStorage)
 - Checkout (cash on delivery) with server-side validation and order confirmation

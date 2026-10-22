@@ -21,6 +21,9 @@ body {
   .btn-accent {
     @apply bg-terracotta text-white hover:bg-clay;
   }
+  .btn-soft {
+    @apply border border-line bg-chalk text-ink hover:border-ink hover:bg-ink hover:text-white;
+  }
   .btn-ghost {
     @apply border border-line bg-white text-ink hover:bg-[#f1e8d0];
   }
