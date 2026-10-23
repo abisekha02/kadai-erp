@@ -23,10 +23,11 @@ export const DISHES: DishSlot[] = [
     tag: "Dosa",
     tamil: "தோசை",
     blurb: "Golden, paper-thin dosa with coconut and tomato chutney.",
-    alt: "A crisp golden dosa served with bowls of coconut chutney and tomato chutney",
+    alt: "Two crisp rolled dosas on a banana leaf and wooden plate, with coconut and green chutneys and podi spice powders in small pots",
     cta: "Tawa, batter rice & more",
     href: "/?q=dosa#shop",
     tint: "#8A3F22",
+    credit: { author: "Saveurs Secretes", license: "Pexels License", source: "https://www.pexels.com/photo/5560763/" },
   },
   {
     slot: "idli-sambar",
@@ -56,10 +57,11 @@ export const DISHES: DishSlot[] = [
     tag: "Chettinad",
     tamil: "செட்டிநாடு",
     blurb: "Fiery, fragrant, roasted-spice chicken from Karaikudi.",
-    alt: "A bowl of dark, spicy Chettinad chicken curry with curry leaves",
+    alt: "A steel bowl of spicy orange curry garnished with herbs, surrounded by green chillies, tomatoes, onions and curry leaves",
     cta: "Shop pepper & chilli",
     href: "/?cat=Spices#shop",
     tint: "#6B3A24",
+    credit: { author: "Prabal", license: "Pexels License", source: "https://www.pexels.com/photo/9609839/" },
   },
   {
     slot: "biryani",
@@ -89,10 +91,11 @@ export const DISHES: DishSlot[] = [
     tag: "Murukku",
     tamil: "முறுக்கு",
     blurb: "Crunchy rice-flour spirals, fried fresh.",
-    alt: "A pile of crunchy golden murukku spirals",
+    alt: "Spiral murukku on a wooden tray and in a steel bowl, with two glasses of frothy tea",
     cta: "Shop snacks",
     href: "/?cat=Snacks#shop",
     tint: "#A3472A",
+    credit: { author: "Saveurs Secretes", license: "Pexels License", source: "https://www.pexels.com/photo/5992272/" },
   },
   {
     slot: "sweets",
@@ -110,7 +113,7 @@ export const DISHES: DishSlot[] = [
 /** Hero banner photo (landscape, about 2:1). */
 export const HERO = {
   slot: "hero-banana-leaf",
-  alt: "A traditional South Indian meal served on a banana leaf with rice, sambar, rasam, poriyal, appalam and pickle",
+  alt: "A South Indian meal on a banana leaf with rice, curries, fried fish, prawns and curd, served with ceramic pots on a dark table",
 };
 
 /** Alt text for the optional per-product photos. The product's own name is used on cards. */
@@ -129,9 +132,12 @@ export const presentPhotos = () => {
 };
 
 /** Add credits for product photos here, keyed by slot (for example "product-coffee"). */
-export const PRODUCT_CREDITS: Record<string, Credit | undefined> = {};
+export const PRODUCT_CREDITS: Record<string, Credit | undefined> = {
+  "product-cashew": { author: "Engin Akyurt", license: "Pexels License", source: "https://www.pexels.com/photo/5472144/" },
+  "product-cardamom": { author: "Eva Bronzini", license: "Pexels License", source: "https://www.pexels.com/photo/6086300/" },
+};
 /** Credit for the hero photo. */
-export const HERO_CREDIT: Credit | undefined = undefined;
+export const HERO_CREDIT: Credit | undefined = { author: "Saveurs Secretes", license: "Pexels License", source: "https://www.pexels.com/photo/7234281/" };
 
 export const dish = (slot: string): DishSlot => {
   const d = DISHES.find((x) => x.slot === slot);
