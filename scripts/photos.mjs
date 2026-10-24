@@ -1,16 +1,28 @@
 // Scans public/photos and writes src/lib/photos.generated.ts so the site only ever
 // references image files that really exist. Runs before dev and build.
+//
+// Cache-busting: each photo is copied to public/photos/_v/<slot>.<content-hash>.<ext> and the site
+// uses that URL. If you replace a photo, its URL changes, so visitors and the image CDN can
+// never keep showing the old picture. _v is generated, git-ignored and safe to delete.
+//
 // Usage: npm run photos   (prints a report of which slots have a photo)
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 
 const root = path.resolve(new URL("..", import.meta.url).pathname);
 const dir = path.join(root, "public", "photos");
+const vdir = path.join(dir, "_v");
 const slots = JSON.parse(fs.readFileSync(path.join(root, "src/lib/photo-slots.json"), "utf8"));
 const exts = [".avif", ".webp", ".jpg", ".jpeg", ".png"]; // preference order
 
 fs.mkdirSync(dir, { recursive: true });
-const files = fs.readdirSync(dir).filter((f) => exts.includes(path.extname(f).toLowerCase()));
+fs.rmSync(vdir, { recursive: true, force: true });
+fs.mkdirSync(vdir, { recursive: true });
+
+const files = fs.readdirSync(dir, { withFileTypes: true })
+  .filter((e) => e.isFile() && exts.includes(path.extname(e.name).toLowerCase()))
+  .map((e) => e.name);
 
 const found = {};
 const warnings = [];
@@ -18,8 +30,14 @@ for (const slot of slots) {
   const matches = files.filter((f) => path.basename(f, path.extname(f)) === slot);
   matches.sort((a, b) => exts.indexOf(path.extname(a).toLowerCase()) - exts.indexOf(path.extname(b).toLowerCase()));
   if (matches[0]) {
-    found[slot] = `/photos/${matches[0]}`;
-    const kb = Math.round(fs.statSync(path.join(dir, matches[0])).size / 1024);
+    const src = path.join(dir, matches[0]);
+    const buf = fs.readFileSync(src);
+    const hash = crypto.createHash("md5").update(buf).digest("hex").slice(0, 8);
+    const ext = path.extname(matches[0]).toLowerCase();
+    const out = `${slot}.${hash}${ext}`;
+    fs.writeFileSync(path.join(vdir, out), buf);
+    found[slot] = `/photos/_v/${out}`;
+    const kb = Math.round(buf.length / 1024);
     if (kb > 500) warnings.push(`${matches[0]} is ${kb} KB. Compress it (aim for under 300 KB) for fast loading.`);
   }
 }
@@ -35,7 +53,7 @@ if (!fs.existsSync(target) || fs.readFileSync(target, "utf8") !== out) fs.writeF
 
 const have = Object.keys(found).length;
 console.log(`[photos] ${have}/${slots.length} slots have a photo in public/photos`);
-if (process.argv[1].endsWith("photos.mjs") && process.env.npm_lifecycle_event === "photos") {
+if (process.env.npm_lifecycle_event === "photos") {
   for (const s of slots) console.log(`  ${found[s] ? "✓" : "–"} ${s}${found[s] ? "  " + found[s] : ""}`);
 }
 for (const w of warnings) console.warn(`[photos] warning: ${w}`);

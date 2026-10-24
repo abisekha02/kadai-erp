@@ -5,3 +5,6 @@ node_modules
 *.tsbuildinfo
 next-env.d.ts
 .vercel
+
+# generated, content-hashed copies of public/photos
+public/photos/_v

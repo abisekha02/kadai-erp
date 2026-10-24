@@ -69,4 +69,3 @@ Tables and demo data are created automatically on the first page load, so there 
 - Product image uploads, customer accounts, reviews
 - Multiple admin users with roles, audit log of stock movements
 - Unit and end-to-end tests (Vitest + Playwright)
-"# Abisekha-Cinematic-Portfolio" 

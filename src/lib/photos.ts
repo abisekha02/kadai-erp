@@ -35,10 +35,11 @@ export const DISHES: DishSlot[] = [
     tag: "Idli",
     tamil: "இட்லி",
     blurb: "Soft steamed idlis in a bowl of hot, tangy sambar.",
-    alt: "Steamed idlis on a banana leaf with a bowl of sambar and a bowl of coconut chutney",
+    alt: "Steamed idlis topped with curry leaves on a banana leaf, with a pot of sambar and a bowl of coconut chutney",
     cta: "Shop idli rice",
     href: "/?q=idli#shop",
     tint: "#2F6B4A",
+    credit: { author: "Nifty Highness", license: "Pexels License", source: "https://www.pexels.com/photo/31199041/" },
   },
   {
     slot: "parotta-salna",
@@ -46,10 +47,11 @@ export const DISHES: DishSlot[] = [
     tag: "Parotta",
     tamil: "பரோட்டா",
     blurb: "Flaky layered parotta with a spicy, peppery salna.",
-    alt: "Layered parotta on a plate with egg curry, lime slices and green chillies, set on a banana leaf",
+    alt: "A stack of layered parotta on a white plate with a bowl of chicken curry, raita, sliced onion and lime",
     cta: "Shop spices",
     href: "/?cat=Spices#shop",
     tint: "#A64B28",
+    credit: { author: "Milton Photography", license: "Pexels License", source: "https://www.pexels.com/photo/35071820/" },
   },
   {
     slot: "chettinad-chicken",
@@ -69,10 +71,11 @@ export const DISHES: DishSlot[] = [
     tag: "Biryani",
     tamil: "பிரியாணி",
     blurb: "Seeraga samba rice layered with meat and whole spices.",
-    alt: "Chicken biryani served on a banana leaf with onion raita and a bowl of gravy",
+    alt: "Chicken biryani in a teal bowl with fried onions and coriander, served with raita, onion rings and green chutney",
     cta: "Shop rice & grains",
     href: "/?cat=Rice%20%26%20Grains#shop",
     tint: "#3F5E34",
+    credit: { author: "Dhiraj Jain", license: "Pexels License", source: "https://www.pexels.com/photo/12737656/" },
   },
   {
     slot: "filter-coffee",
@@ -103,10 +106,11 @@ export const DISHES: DishSlot[] = [
     tag: "Sweets",
     tamil: "இனிப்பு",
     blurb: "Mysore pak, adhirasam and laddu for every festival.",
-    alt: "A tray of traditional South Indian sweets including Mysore pak and laddu",
+    alt: "A wooden bowl of golden gram-flour fudge squares topped with sliced almonds and pistachios",
     cta: "Shop snacks",
     href: "/?cat=Snacks#shop",
     tint: "#1F5138",
+    credit: { author: "Pure Punjabi", license: "Pexels License", source: "https://www.pexels.com/photo/7182054/" },
   },
 ];
 
@@ -133,6 +137,10 @@ export const presentPhotos = () => {
 
 /** Add credits for product photos here, keyed by slot (for example "product-coffee"). */
 export const PRODUCT_CREDITS: Record<string, Credit | undefined> = {
+  "product-tea": { author: "Anna Pou", license: "Pexels License", source: "https://www.pexels.com/photo/8329977/" },
+  "product-rice": { author: "Waskyria Miranda", license: "Pexels License", source: "https://www.pexels.com/photo/31555433/" },
+  "product-chilli": { author: "Taryn Elliott", license: "Pexels License", source: "https://www.pexels.com/photo/5107129/" },
+  "product-coffee": { author: "Engin Akyurt", license: "Pexels License", source: "https://www.pexels.com/photo/2232704/" },
   "product-cashew": { author: "Engin Akyurt", license: "Pexels License", source: "https://www.pexels.com/photo/5472144/" },
   "product-cardamom": { author: "Eva Bronzini", license: "Pexels License", source: "https://www.pexels.com/photo/6086300/" },
 };

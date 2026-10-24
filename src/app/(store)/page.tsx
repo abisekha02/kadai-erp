@@ -190,7 +190,7 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
       {/* 7. Second promo trio */}
       <section aria-label="From the kitchens of the South" className="mt-14">
         <ul className="grid gap-4 md:grid-cols-3">
-          <li><PromoCard d={dish("biryani")} eyebrow="Seeraga samba" title="Biryani rice, the proper way" cta="Shop rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
+          <li><PromoCard d={dish("biryani")} eyebrow="Biryani night" title="Biryani rice, the proper way" cta="Shop rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("chettinad-chicken")} eyebrow="Karaikudi heat" title="Pepper & chilli for Chettinad" cta="Shop spices" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("murukku")} eyebrow="Crunchy spirals" title="Murukku, fried fresh" cta="Shop snacks" sizes="(min-width: 768px) 380px, 90vw" /></li>
         </ul>
