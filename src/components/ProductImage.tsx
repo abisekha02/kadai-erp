@@ -17,6 +17,7 @@ export default function ProductImage({
   sizes = "(min-width: 1024px) 260px, (min-width: 640px) 30vw, 46vw",
   priority = false,
   compact = false,
+  zoom = false,
 }: {
   name: string;
   category: string;
@@ -26,6 +27,8 @@ export default function ProductImage({
   priority?: boolean;
   /** Small thumbnails (cart, admin): the fallback shows a monogram instead of a label. */
   compact?: boolean;
+  /** Gentle zoom when the parent has the `group` class and is hovered. */
+  zoom?: boolean;
 }) {
   const local = photoSrc(`product-${photoKey(name, category)}`);
   const initials = name
@@ -40,7 +43,7 @@ export default function ProductImage({
         // eslint-disable-next-line @next/next/no-img-element
         <img src={imageUrl} alt={name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
       ) : local ? (
-        <Image src={local} alt={name} fill sizes={sizes} priority={priority} quality={78} className="object-cover" />
+        <Image src={local} alt={name} fill sizes={sizes} priority={priority} quality={78} className={`object-cover ${zoom ? "transition duration-500 group-hover:scale-105" : ""}`} />
       ) : (
         <div role="img" aria-label={name} className="tile-dots flex h-full w-full items-center justify-center">
           {compact ? (

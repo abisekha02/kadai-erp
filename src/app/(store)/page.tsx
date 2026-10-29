@@ -9,6 +9,7 @@ import PromoCard from "@/components/PromoCard";
 import SectionHeading from "@/components/SectionHeading";
 import HeroSlider from "@/components/HeroSlider";
 import Photo from "@/components/Photo";
+import Reveal from "@/components/Reveal";
 import { HERO, dish } from "@/lib/photos";
 
 export const dynamic = "force-dynamic";
@@ -89,9 +90,9 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
               Nothing matches your search. Try another word or <Link href="/?shop=all" className="underline">clear the filters</Link>.
             </p>
           ) : (
-            <ul className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+            <Reveal as="ul" stagger className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
               {products.map((p) => <ProductCard key={p.id} p={p} />)}
-            </ul>
+            </Reveal>
           )}
         </section>
       </div>
@@ -99,45 +100,52 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
   }
 
   /* ---------- Home ---------- */
-  const slideBase = "relative isolate flex min-h-[420px] overflow-hidden text-white";
+  const shell = "grid min-h-[440px] w-full md:grid-cols-[1.1fr_1fr]";
+  const textCol = "slide-text flex flex-col justify-center p-7 pb-16 sm:p-10 sm:pb-16 md:pb-10";
+  const imgCol = "slide-img relative min-h-[260px] overflow-hidden md:rounded-l-[3rem]";
+  const fallback = (word: string) => (
+    <div className="tile-lotus flex h-full w-full items-center justify-center bg-terracotta/20" aria-hidden>
+      <span className="font-tamil text-6xl font-bold text-clay/40" lang="ta">{word}</span>
+    </div>
+  );
   const slides = [
-    <div key="s1" className={`${slideBase} hero-green`}>
-      <div className="absolute inset-y-0 right-0 w-full md:w-3/5">
-        <Photo slot={HERO.slot} alt={HERO.alt} priority sizes="(min-width: 1024px) 560px, 100vw"
-          fallback={<div className="tile-lotus flex h-full w-full items-end justify-end p-8" aria-hidden><span className="font-tamil text-6xl font-bold text-white/15 lg:text-7xl" lang="ta">சுவை</span></div>} />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/80 to-ink/10 md:via-ink/60" aria-hidden />
-      <div className="relative z-10 flex max-w-lg flex-col justify-center p-7 pb-14 sm:p-10 sm:pb-14">
-        <p className="font-tamil text-base font-semibold text-sand" lang="ta">தென்னிந்திய சுவை</p>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-cream/70">South Indian pantry · Madurai</p>
+    <div key="s1" className={`${shell} bg-gradient-to-br from-[#FFF3D0] via-[#FFE8B5] to-[#FFD592] text-ink`}>
+      <div className={textCol}>
+        <p className="font-tamil text-base font-semibold text-clay" lang="ta">தென்னிந்திய சுவை</p>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-ink/60">South Indian pantry · Madurai</p>
         <h1 className="mt-4 font-display text-4xl font-bold leading-[1.08] sm:text-5xl">The flavours of the South, delivered.</h1>
-        <p className="mt-4 max-w-md leading-relaxed text-cream/85">Filter coffee, Guntur chilli, Idukki cardamom and the cast iron to cook it on. Small batches, packed fresh and priced fairly.</p>
+        <p className="mt-4 max-w-md leading-relaxed text-ink/80">Filter coffee, Guntur chilli, Idukki cardamom and the cast iron to cook it on. Small batches, packed fresh and priced fairly.</p>
         <div className="mt-7 flex flex-wrap gap-3">
-          <Link href="/?shop=all" className="btn btn-accent px-6 py-3 text-base">Shop the pantry</Link>
-          <a href="#bestsellers" className="btn border border-white/40 px-6 py-3 text-base text-white hover:bg-white/10">Best sellers</a>
+          <Link href="/?shop=all" className="btn btn-primary px-5 py-2.5 text-[15px]">Shop the pantry</Link>
+          <a href="#bestsellers" className="btn border border-ink/25 bg-white/70 px-5 py-2.5 text-[15px] text-ink hover:bg-white">Best sellers</a>
         </div>
       </div>
-    </div>,
-    <div key="s2" className={`${slideBase} bg-gradient-to-br from-[#5A3A28] to-[#3b2418]`}>
-      <div className="tile-lotus absolute inset-0 -z-10" aria-hidden />
-      <span className="pointer-events-none absolute -right-2 bottom-2 font-tamil text-[9rem] font-bold leading-none text-white/10" lang="ta" aria-hidden>காபி</span>
-      <div className="relative z-10 flex max-w-lg flex-col justify-center p-7 pb-14 sm:p-10 sm:pb-14">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sand">Coffee &amp; tea</p>
-        <h2 className="mt-3 font-display text-4xl font-bold leading-[1.08] sm:text-5xl">Filter coffee, ground the way you like it</h2>
-        <p className="mt-4 max-w-md leading-relaxed text-cream/85">Chicory-blend roast for the South Indian filter, and Nilgiri leaf for a proper cup of tea.</p>
-        {from("Coffee & Tea") && <p className="mt-4 text-lg font-semibold text-sand">from {from("Coffee & Tea")}</p>}
-        <div className="mt-6"><Link href="/?cat=Coffee%20%26%20Tea" className="btn btn-accent px-6 py-3 text-base">Shop coffee &amp; tea</Link></div>
+      <div className={imgCol}>
+        <Photo slot={HERO.slot} alt={HERO.alt} priority sizes="(min-width: 1024px) 400px, 100vw" fallback={fallback("சுவை")} />
       </div>
     </div>,
-    <div key="s3" className={`${slideBase} bg-gradient-to-br from-clay to-terracotta`}>
-      <div className="tile-lotus absolute inset-0 -z-10" aria-hidden />
-      <span className="pointer-events-none absolute -right-2 bottom-2 font-tamil text-[8rem] font-bold leading-none text-white/10" lang="ta" aria-hidden>பாத்திரம்</span>
-      <div className="relative z-10 flex max-w-lg flex-col justify-center p-7 pb-14 sm:p-10 sm:pb-14">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/80">Kitchenware</p>
+    <div key="s2" className={`${shell} bg-gradient-to-br from-[#E6F6DD] via-[#D6F0C8] to-[#C2E8B0] text-ink`}>
+      <div className={textCol}>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-betel">Coffee &amp; tea</p>
+        <h2 className="mt-3 font-display text-4xl font-bold leading-[1.08] sm:text-5xl">Filter coffee, ground the way you like it</h2>
+        <p className="mt-4 max-w-md leading-relaxed text-ink/80">Chicory-blend roast for the South Indian filter, and Nilgiri leaf for a proper cup of tea.</p>
+        {from("Coffee & Tea") && <p className="mt-4 text-lg font-bold text-clay">from {from("Coffee & Tea")}</p>}
+        <div className="mt-6"><Link href="/?cat=Coffee%20%26%20Tea" className="btn btn-accent px-6 py-3 text-base">Shop coffee &amp; tea</Link></div>
+      </div>
+      <div className={imgCol}>
+        <Photo slot="product-coffee" alt="Roasted coffee beans filling a white cup and saucer on an orange background" sizes="(min-width: 1024px) 400px, 100vw" fallback={fallback("காபி")} />
+      </div>
+    </div>,
+    <div key="s3" className={`${shell} bg-gradient-to-br from-[#FFE6D4] via-[#FFD6BB] to-[#FFC29B] text-ink`}>
+      <div className={textCol}>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-clay">Kitchenware</p>
         <h2 className="mt-3 font-display text-4xl font-bold leading-[1.08] sm:text-5xl">Cast iron and brass, built to last</h2>
-        <p className="mt-4 max-w-md leading-relaxed text-cream/90">A dosa tawa that holds its heat, a brass tumbler and dabara, and a stone wet grinder for smooth batter.</p>
-        {from("Kitchenware") && <p className="mt-4 text-lg font-semibold">from {from("Kitchenware")}</p>}
-        <div className="mt-6"><Link href="/?cat=Kitchenware" className="btn bg-white px-6 py-3 text-base text-ink hover:bg-sand">Shop kitchenware</Link></div>
+        <p className="mt-4 max-w-md leading-relaxed text-ink/80">A dosa tawa that holds its heat, a brass tumbler and dabara, and a stone wet grinder for smooth batter.</p>
+        {from("Kitchenware") && <p className="mt-4 text-lg font-bold text-clay">from {from("Kitchenware")}</p>}
+        <div className="mt-6"><Link href="/?cat=Kitchenware" className="btn btn-primary px-6 py-3 text-base">Shop kitchenware</Link></div>
+      </div>
+      <div className={imgCol}>
+        <Photo slot="product-tumbler" alt="A brass tumbler and dabara with frothy coffee on a wooden tray among coffee beans" sizes="(min-width: 1024px) 400px, 100vw" fallback={fallback("பாத்திரம்")} />
       </div>
     </div>,
   ];
@@ -147,63 +155,65 @@ export default async function Home({ searchParams }: { searchParams: { q?: strin
       {/* 1. Hero slider + two side banners */}
       <section aria-label="Featured" className="grid gap-4 pt-6 lg:grid-cols-[2fr_1fr]">
         <HeroSlider slides={slides} />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+        <Reveal stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
           <PromoCard d={dish("filter-coffee")} eyebrow="Kumbakonam style" title="Filter coffee, made right" className="aspect-[16/9] lg:aspect-auto lg:min-h-[200px]" />
           <PromoCard d={dish("sweets")} eyebrow="Festival favourites" title="Sweets & snacks for every occasion" className="aspect-[16/9] lg:aspect-auto lg:min-h-[200px]" />
-        </div>
+        </Reveal>
       </section>
 
       {/* 2. Best sellers */}
       <section id="bestsellers" aria-label="Best sellers" className="mt-14 scroll-mt-32">
-        <SectionHeading title="Best sellers" sub="What other kitchens keep reordering." href="/?shop=all" />
-        <ul className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
+        <Reveal><SectionHeading title="Best sellers" sub="What other kitchens keep reordering." href="/?shop=all" /></Reveal>
+        <Reveal as="ul" stagger className="mt-6 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
           {bestSellers.map((p, k) => <ProductCard key={p.id} p={p} badge={k < 3 && p.sold > 0 ? "Best seller" : undefined} />)}
-        </ul>
+        </Reveal>
       </section>
 
       {/* 3. Wide promo */}
       <section aria-label="Cash on delivery" className="mt-14">
-        <div className="relative isolate flex flex-wrap items-center justify-between gap-5 overflow-hidden rounded-2xl bg-ink px-7 py-8 text-white sm:px-10">
-          <div className="tile-lotus absolute inset-0 -z-10 opacity-60" aria-hidden />
-          <h2 className="max-w-xl font-display text-2xl font-bold leading-snug sm:text-3xl">
-            <span className="text-sand">Pay when it arrives.</span> Cash on delivery on every order, no card needed.
-          </h2>
-          <Link href="/?shop=all" className="btn btn-accent px-6 py-3 text-base">Shop now</Link>
-        </div>
+        <Reveal>
+          <div className="relative isolate flex flex-wrap items-center justify-between gap-5 overflow-hidden rounded-2xl bg-gradient-to-r from-[#FFE9B8] to-[#FFCF85] px-7 py-8 text-ink sm:px-10">
+            <div className="tile-lotus absolute inset-0 -z-10 opacity-40" aria-hidden />
+            <h2 className="max-w-xl font-display text-2xl font-bold leading-snug sm:text-3xl">
+              <span className="text-clay">Pay when it arrives.</span> Cash on delivery on every order, no card needed.
+            </h2>
+            <Link href="/?shop=all" className="btn btn-primary px-6 py-3 text-base">Shop now</Link>
+          </div>
+        </Reveal>
       </section>
 
       {/* 4. Category block: Spices */}
-      <CategoryBlock category="Spices" eyebrow="Spices" title="Ground fresh, packed fresh" blurb="Guntur chilli, Tellicherry pepper and Idukki cardamom." tint="#8A3F22" tamil="மசாலா" products={inCat("Spices")} />
+      <CategoryBlock category="Spices" eyebrow="Spices" title="Ground fresh, packed fresh" blurb="Guntur chilli, Tellicherry pepper and Idukki cardamom." tint="#B8501F" tamil="மசாலா" products={inCat("Spices")} />
 
       {/* 5. Promo trio */}
       <section aria-label="Cook the South" className="mt-14">
-        <ul className="grid gap-4 md:grid-cols-3">
+        <Reveal as="ul" stagger className="grid gap-4 md:grid-cols-3">
           <li><PromoCard d={dish("dosa-chutney")} eyebrow="Crisp & golden" title="Dosa night, sorted" cta="Shop dosa" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("idli-sambar")} eyebrow="Soft & steamed" title="Idli rice for fluffy idlis" cta="Shop idli rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("parotta-salna")} eyebrow="Layered & flaky" title="Spices for parotta & salna" cta="Shop spices" sizes="(min-width: 768px) 380px, 90vw" /></li>
-        </ul>
+        </Reveal>
       </section>
 
       {/* 6. Category block: Kitchenware */}
-      <CategoryBlock category="Kitchenware" eyebrow="Kitchenware" title="Built to last a lifetime" blurb="Cast iron, brass and stone, the way kitchens here have always cooked." tint="#1F5138" tamil="பாத்திரம்" products={inCat("Kitchenware")} />
+      <CategoryBlock category="Kitchenware" eyebrow="Kitchenware" title="Built to last a lifetime" blurb="Cast iron, brass and stone, the way kitchens here have always cooked." tint="#2F7D4F" tamil="பாத்திரம்" products={inCat("Kitchenware")} />
 
       {/* 7. Second promo trio */}
       <section aria-label="From the kitchens of the South" className="mt-14">
-        <ul className="grid gap-4 md:grid-cols-3">
+        <Reveal as="ul" stagger className="grid gap-4 md:grid-cols-3">
           <li><PromoCard d={dish("biryani")} eyebrow="Biryani night" title="Biryani rice, the proper way" cta="Shop rice" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("chettinad-chicken")} eyebrow="Karaikudi heat" title="Pepper & chilli for Chettinad" cta="Shop spices" sizes="(min-width: 768px) 380px, 90vw" /></li>
           <li><PromoCard d={dish("murukku")} eyebrow="Crunchy spirals" title="Murukku, fried fresh" cta="Shop snacks" sizes="(min-width: 768px) 380px, 90vw" /></li>
-        </ul>
+        </Reveal>
       </section>
 
       {/* 8. Shop by category */}
       <section aria-label="Shop by category" className="mt-16">
-        <SectionHeading title="Shop by category" sub="Everything for a South Indian kitchen." href="/?shop=all" hrefLabel="All products" />
-        <ul className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6 sm:grid-cols-5">
+        <Reveal><SectionHeading title="Shop by category" sub="Everything for a South Indian kitchen." href="/?shop=all" hrefLabel="All products" /></Reveal>
+        <Reveal as="ul" stagger className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6 sm:grid-cols-5">
           {CATEGORIES.map((c) => (
             <CategoryTile key={c} category={c} count={all.filter((p) => p.category === c).length} rep={all.find((p) => p.category === c)} />
           ))}
-        </ul>
+        </Reveal>
       </section>
     </div>
   );

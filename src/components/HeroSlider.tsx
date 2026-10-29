@@ -29,7 +29,7 @@ export default function HeroSlider({ slides, label = "Featured offers", interval
     >
       <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${i * 100}%)` }}>
         {slides.map((s, k) => (
-          <div key={k} role="group" aria-roledescription="slide" aria-label={`${k + 1} of ${n}`} aria-hidden={k !== i} className="w-full shrink-0" {...(k !== i ? { inert: "" as unknown as boolean } : {})}>
+          <div key={k} role="group" aria-roledescription="slide" aria-label={`${k + 1} of ${n}`} aria-hidden={k !== i} className={`flex w-full shrink-0 ${k === i ? "slide-active" : ""}`} {...(k !== i ? { inert: "" as unknown as boolean } : {})}>
             {s}
           </div>
         ))}
@@ -47,7 +47,7 @@ export default function HeroSlider({ slides, label = "Featured offers", interval
           </div>
           <div className="absolute bottom-6 left-7 flex gap-2 sm:left-10">
             {slides.map((_, k) => (
-              <button key={k} type="button" onClick={() => go(k)} aria-label={`Go to slide ${k + 1}`} aria-current={k === i} className={`h-2.5 rounded-full transition-all ${k === i ? "w-7 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}`} />
+              <button key={k} type="button" onClick={() => go(k)} aria-label={`Go to slide ${k + 1}`} aria-current={k === i} className={`h-2.5 rounded-full transition-all ${k === i ? "w-7 bg-ink" : "w-2.5 bg-ink/25 hover:bg-ink/50"}`} />
             ))}
           </div>
         </>

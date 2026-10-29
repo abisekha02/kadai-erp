@@ -12,10 +12,10 @@ export default function ProductCard({ p, badge }: { p: Product; badge?: string }
   return (
     <li className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-white transition duration-200 hover:border-ink/30 hover:shadow-[0_8px_24px_-12px_rgba(23,61,43,0.28)]">
       <Link href={`/product/${p.id}`} className="relative block" aria-label={p.name}>
-        <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} className="aspect-square" />
+        <ProductImage name={p.name} category={p.category} imageUrl={p.image_url} zoom className="aspect-square" />
       </Link>
       {flag && (
-        <span className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-semibold ${out || low ? "bg-brick text-white" : "bg-terracotta text-white"}`}>
+        <span className={`absolute left-3 top-3 rounded-full px-2.5 py-1 text-[11px] font-semibold ${out || low ? "bg-brick text-white" : "bg-saffron text-ink"}`}>
           {flag}
         </span>
       )}

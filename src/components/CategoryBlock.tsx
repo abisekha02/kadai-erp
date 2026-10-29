@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Product } from "@/lib/types";
 import ProductCard from "./ProductCard";
+import Reveal from "./Reveal";
 
 /** Bacola-style category section: a banner with quick links on the left, a product grid on the right. */
 export default function CategoryBlock({
@@ -23,7 +24,7 @@ export default function CategoryBlock({
   const href = `/?cat=${encodeURIComponent(category)}`;
   return (
     <section aria-label={category} className="mt-16">
-      <div className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-4">
+      <Reveal className="flex flex-wrap items-end justify-between gap-3 border-b border-line pb-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-terracotta">{eyebrow}</p>
           <h2 className="mt-1 font-display text-2xl font-bold sm:text-3xl">{title}</h2>
@@ -32,7 +33,7 @@ export default function CategoryBlock({
         <Link href={href} className="rounded-full border border-line bg-white px-4 py-1.5 text-sm font-semibold hover:border-ink">
           View all <span aria-hidden>→</span>
         </Link>
-      </div>
+      </Reveal>
 
       <div className="mt-6 grid gap-5 lg:grid-cols-[260px_1fr]">
         <div className="relative isolate flex flex-col justify-between overflow-hidden rounded-2xl p-6 text-white" style={{ background: tint }}>
@@ -55,11 +56,11 @@ export default function CategoryBlock({
           </Link>
         </div>
 
-        <ul className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
+        <Reveal as="ul" stagger className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
           {products.slice(0, 6).map((p) => (
             <ProductCard key={p.id} p={p} />
           ))}
-        </ul>
+        </Reveal>
       </div>
     </section>
   );

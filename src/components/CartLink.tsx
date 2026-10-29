@@ -21,7 +21,7 @@ export default function CartLink() {
           <circle cx="9" cy="19" r="1.3" />
           <circle cx="17" cy="19" r="1.3" />
         </svg>
-        <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-terracotta px-1 text-[11px] font-bold leading-none text-white" aria-hidden>
+        <span key={c} className={`absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-terracotta px-1 text-[11px] font-bold leading-none text-white ${ready && c > 0 ? "badge-pop" : ""}`} aria-hidden>
           {c}
         </span>
       </span>
