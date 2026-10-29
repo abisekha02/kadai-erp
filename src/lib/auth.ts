@@ -4,8 +4,13 @@ import { redirect } from "next/navigation";
 
 export const COOKIE = "kadai_admin";
 
-export const secretKey = () =>
-  new TextEncoder().encode(process.env.SESSION_SECRET || "dev-only-secret-change-me");
+export const secretKey = () => {
+  const secret = process.env.SESSION_SECRET;
+  if (process.env.NODE_ENV === "production" && (!secret || secret.length < 32)) {
+    throw new Error("SESSION_SECRET must be set to a random value of at least 32 characters in production.");
+  }
+  return new TextEncoder().encode(secret || "local-development-only-secret-change-me");
+};
 
 export async function signIn() {
   const token = await new SignJWT({ role: "admin" })

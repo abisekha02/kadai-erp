@@ -3,6 +3,7 @@ import { query } from "@/lib/db";
 import type { Order, Product } from "@/lib/types";
 import { fmtDate, inr, invoiceNo } from "@/lib/format";
 import ProductImage from "@/components/ProductImage";
+import KadaiAssistant from "@/components/KadaiAssistant";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +40,16 @@ export default async function Dashboard() {
 
   return (
     <div className="space-y-8">
-      <h1 className="font-display text-3xl font-bold">Dashboard</h1>
+      <div className="admin-welcome">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/65">Kadai &amp; Co. · Operations</p>
+          <h1 className="mt-2 font-display text-3xl font-bold text-white sm:text-4xl">Good business starts here.</h1>
+          <p className="mt-2 max-w-xl text-sm leading-6 text-white/75">A clear view of sales, inventory and customer orders — all in one place.</p>
+        </div>
+        <div className="admin-welcome-mark" aria-hidden>கடை</div>
+      </div>
+
+      <KadaiAssistant mode="admin" />
 
       <dl className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((s) => (

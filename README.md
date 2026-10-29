@@ -59,7 +59,7 @@ Tables and demo data are created automatically on the first page load, so there 
    git push -u origin main
    ```
 3. **Vercel:** *Add New → Project →* import the repo. Under *Environment Variables* add
-   `DATABASE_URL` (from Neon), `ADMIN_PASSWORD`, and `SESSION_SECRET` (any long random string). Click Deploy.
+   `DATABASE_URL` (from Neon), `ADMIN_PASSWORD`, and `SESSION_SECRET` (a cryptographically random value of at least 32 characters). Click Deploy.
 4. Open the live URL. The first visit sets up the database. Every later `git push` redeploys automatically.
 5. Paste your live URL at the top of this README.
 
@@ -69,3 +69,12 @@ Tables and demo data are created automatically on the first page load, so there 
 - Product image uploads, customer accounts, reviews
 - Multiple admin users with roles, audit log of stock movements
 - Unit and end-to-end tests (Vitest + Playwright)
+
+## Kadai AI assistant
+
+The storefront includes a product-discovery assistant, and the admin dashboard includes an operations assistant for inventory prioritization. Both use the server-side `/api/assistant` route, which grounds answers in the active product catalog. Admin-mode requests require a valid admin session.
+
+- For live AI answers, set `OPENAI_API_KEY` in the server environment. Optionally set `OPENAI_MODEL` (defaults to `gpt-4o-mini`). The key is used only on the server and must not be exposed through a `NEXT_PUBLIC_` variable.
+- Without a key, the assistant stays usable in a clearly labelled local demo mode with simple catalog-grounded responses.
+- Do not treat generated admin suggestions as automatic inventory actions; review them before changing stock or purchase orders.
+- Production deployments must set `SESSION_SECRET` to a cryptographically random value of at least 32 characters.

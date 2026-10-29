@@ -1,5 +1,6 @@
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import KadaiAssistant from "@/components/KadaiAssistant";
 
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
+      <KadaiAssistant mode="shop" />
     </>
   );
 }
